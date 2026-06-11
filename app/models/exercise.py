@@ -27,7 +27,7 @@ class Exercise(db.Model):
     )
 
     sets = orm.relationship(
-        "Set",
+        "WorkoutSet",
         back_populates="exercise",
         cascade="all, delete-orphan",
     )
