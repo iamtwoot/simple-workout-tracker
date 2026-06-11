@@ -11,3 +11,5 @@ instance/
 .pytest_cache/
 
 migrations/__pycache__/
+
+text_script.py
