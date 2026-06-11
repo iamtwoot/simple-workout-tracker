@@ -1,24 +1,22 @@
 from flask import Flask
-from app.extensions import db
+from app.extensions import db, migrate
 
 
 def create_app():
-    import app.models
-
-    app = Flask(__name__)
+    flask_app = Flask(__name__)
 
     # temporarily SQLite
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///workout.db'
+    flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///workout.db'
 
-    db.init_app(app)
+    db.init_app(flask_app)
 
-    # create tables
-    with app.app_context():
-        db.create_all()
-        print("tables created")
+    # models must be imported before migrations
+    import app.models
+
+    migrate.init_app(flask_app, db)
 
     # blueprints
     from app.routes.main import main_bp
-    app.register_blueprint(main_bp)
+    flask_app.register_blueprint(main_bp)
 
-    return app
+    return flask_app
