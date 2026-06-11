@@ -1,0 +1,13 @@
+venv/
+.idea/
+
+__pycache__/
+*.pyc
+
+.env
+
+instance/
+
+.pytest_cache/
+
+migrations/__pycache__/
