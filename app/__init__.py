@@ -1,6 +1,7 @@
 from flask import Flask
 from app.extensions import db
 from app.models.user import User
+from app.models.workout import Workout
 
 
 def create_app():
@@ -12,6 +13,11 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///workout.db'
 
     db.init_app(app)
+
+    # create tables
+    with app.app_context():
+        db.create_all()
+        print("tables created")
 
     # blueprints
     from app.routes.main import main_bp
