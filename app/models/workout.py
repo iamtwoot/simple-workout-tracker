@@ -31,6 +31,6 @@ class Workout(db.Model):
 
     exercises = orm.relationship(
         "Exercise",
-        back_populates=" ",
+        back_populates="workout",
         cascade="all, delete-orphan",
     )
