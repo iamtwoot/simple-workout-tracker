@@ -1,7 +1,5 @@
 from flask import Flask
 from app.extensions import db
-from app.models.user import User
-from app.models.workout import Workout
 
 
 def create_app():
