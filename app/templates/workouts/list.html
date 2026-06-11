@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Workouts</title>
+</head>
+<body>
+<h1>Workouts</h1>
+
+<a href="{{ url_for('home') }}">Workouts
+    New Workout
+</a>
+
+<hr>
+
+<ul>
+    {% for workout in workouts %}
+    <li>
+        {{ workout.name }}
+    </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

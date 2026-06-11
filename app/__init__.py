@@ -17,6 +17,8 @@ def create_app():
 
     # blueprints
     from app.routes.main import main_bp
+    from app.routes.workouts import workouts_bp
     flask_app.register_blueprint(main_bp)
+    flask_app.register_blueprint(workouts_bp)
 
     return flask_app
