@@ -13,7 +13,7 @@ class User(db.Model):
     created_at: orm.Mapped[datetime] = orm.mapped_column(db.DateTime, default=datetime.now)
     updated_at: orm.Mapped[datetime] = orm.mapped_column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
-    workouts = orm.relationship("Workout", back_populates="user")
+    workouts = orm.relationship("Workout", back_populates="user", cascade="all, delete-orphan")
 
     def __repr__(self) -> str:
         return f"<User {self.username}>"
