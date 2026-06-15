@@ -16,18 +16,27 @@
 <hr>
 
 {% for exercise in workout.exercises %}
-    {{ exercise.name }}
+    {{ exercise.name }}<br>
 
     <a
             href="{{ url_for('sets.create_set',
                     workout_id=workout.id,
                     exercise_id=exercise.id) }}"
-    >+ New Set</a>
+    >+ New Set</a> <br>
 
     {% for set in exercise.sets %}
         {{ loop.index }}. {{ set.reps }} x {{ set.weight }}
-    {% endfor %}
 
+        <a
+                href="{{ url_for('sets.edit_set',
+                        workout_id=workout.id,
+                        exercise_id=exercise.id,
+                        set_id=set.id) }}"
+        >Edit Set</a>
+        <br>
+
+    {% endfor %}
+<hr>
 {% endfor %}
 </body>
 </html>
