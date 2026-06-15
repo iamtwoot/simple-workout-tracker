@@ -28,7 +28,7 @@ def create_workout():
         db.session.add(new_workout)
         db.session.commit()
 
-        return redirect(url_for('workouts.list_workouts'))
+        return redirect(url_for('workouts.show_workout', workout_id=new_workout.id))
 
     return render_template(
         'workouts/new.html',
@@ -36,9 +36,10 @@ def create_workout():
     )
 
 
-@workouts_bp.route('/<int:workout_id>')
+@workouts_bp.route('/<int:workout_id>', methods=['GET', 'POST'])
 def show_workout(workout_id):
     workout = db.get_or_404(Workout, workout_id)
+
     return render_template(
         'workouts/show_workout.html',
         workout=workout,
