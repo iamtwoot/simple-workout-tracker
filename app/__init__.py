@@ -16,6 +16,9 @@ def create_app():
     migrate.init_app(flask_app, db)
 
     # blueprints
+    from app.routes.main import main_bp
+    flask_app.register_blueprint(main_bp)
+
     from app.routes.workouts import workouts_bp
     flask_app.register_blueprint(workouts_bp)
 
