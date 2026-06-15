@@ -25,4 +25,7 @@ def create_app():
     from app.routes.exercises import exercises_bp
     flask_app.register_blueprint(exercises_bp)
 
+    from app.routes.sets import sets_bp
+    flask_app.register_blueprint(sets_bp)
+
     return flask_app

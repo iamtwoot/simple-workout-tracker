@@ -5,19 +5,28 @@
     <title>Workout</title>
 </head>
 <body>
-    {{ workout.name }}
-    {{ workout.workout_date }}
-    {{ workout.notes }}
+{{ workout.name }}
+{{ workout.workout_date }}
+{{ workout.notes }}
 
-    <hr>
+<hr>
 
-    <a href="{{ url_for('exercises.create_exercise', workout_id=workout.id) }}">Add Exercise</a>
+<a href="{{ url_for('exercises.create_exercise', workout_id=workout.id) }}">Add Exercise</a>
 
-    <hr>
+<hr>
 
 {% for exercise in workout.exercises %}
     {{ exercise.name }}
-    {{ exercise.sets }}
+
+    <a
+            href="{{ url_for('sets.create_set',
+                    workout_id=workout.id,
+                    exercise_id=exercise.id) }}"
+    >+ New Set</a>
+
+    {% for set in exercise.sets %}
+        {{ loop.index }}. {{ set.reps }} x {{ set.weight }}
+    {% endfor %}
 
 {% endfor %}
 </body>
