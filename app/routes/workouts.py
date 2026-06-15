@@ -9,8 +9,8 @@ def home():
     workouts = db.session.execute(db.select(Workout)).scalars().all()
     return render_template('workouts/list.html', workouts=workouts)
 
-@workouts_bp.route('/new')
-def new():
+@workouts_bp.route('/new', methods=['GET', 'POST'])
+def create_workout():
     return render_template('workouts/new.html')
 
 
