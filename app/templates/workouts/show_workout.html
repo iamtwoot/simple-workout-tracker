@@ -9,6 +9,12 @@
     {{ workout.workout_date }}
     {{ workout.notes }}
 
+    <hr>
+
+    <a href="{{ url_for('exercises.create_exercise', workout_id=workout.id) }}">Add Exercise</a>
+
+    <hr>
+
 {% for exercise in workout.exercises %}
     {{ exercise.name }}
     {{ exercise.sets }}
