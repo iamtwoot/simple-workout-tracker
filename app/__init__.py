@@ -1,12 +1,12 @@
 from flask import Flask
 from app.extensions import db, migrate
+from config import Config
 
 
 def create_app():
     flask_app = Flask(__name__)
 
-    # temporarily SQLite
-    flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///workout.db'
+    flask_app.config.from_object(Config)
 
     db.init_app(flask_app)
 
