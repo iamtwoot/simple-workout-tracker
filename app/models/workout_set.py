@@ -12,10 +12,6 @@ class WorkoutSet(db.Model):
         nullable=False,
     )
 
-    set_number: orm.Mapped[int] = orm.mapped_column(
-        nullable=False,
-    )
-
     reps: orm.Mapped[int] = orm.mapped_column(
         nullable=False,
     )
