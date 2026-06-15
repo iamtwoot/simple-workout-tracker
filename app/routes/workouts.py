@@ -44,3 +44,15 @@ def show_workout(workout_id):
         'workouts/show_workout.html',
         workout=workout,
     )
+
+@workouts_bp.route('/<int:workout_id>/edit', methods=['GET', 'POST'])
+def edit_workout(workout_id):
+    workout = db.get_or_404(Workout, workout_id)
+    form = WorkoutForm(obj=workout)
+
+    if form.validate_on_submit():
+        workout.name = form.name.data
+        db.session.commit()
+        return redirect(url_for('workouts.list_workouts'))
+
+    return render_template("workouts/new.html", form=form)

@@ -18,6 +18,9 @@
             {{ workout.name }}
         </a>
     <br>
+
+    <a href="{{ url_for('workouts.edit_workout', workout_id=workout.id) }}">Edit</a>
+
     </li>
     {% endfor %}
 </ul>

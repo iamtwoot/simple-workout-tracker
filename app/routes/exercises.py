@@ -26,7 +26,6 @@ def edit_exercise(workout_id, exercise_id):
 
     if form.validate_on_submit():
         exercise.name = form.name.data
-        db.session.add(exercise)
         db.session.commit()
         return redirect(url_for('workouts.show_workout', workout_id=workout_id))
 
