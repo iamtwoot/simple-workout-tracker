@@ -34,3 +34,12 @@ def create_workout():
         'workouts/new.html',
         form=form,
     )
+
+
+@workouts_bp.route('/<int:workout_id>')
+def show_workout(workout_id):
+    workout = db.get_or_404(Workout, workout_id)
+    return render_template(
+        'workouts/show_workout.html',
+        workout=workout,
+    )

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Workout</title>
+</head>
+<body>
+    {{ workout.name }}
+    {{ workout.workout_date }}
+    {{ workout.notes }}
+
+{% for exercise in workout.exercises %}
+    {{ exercise.name }}
+    {{ exercise.sets }}
+
+{% endfor %}
+</body>
+</html>
