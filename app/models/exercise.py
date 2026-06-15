@@ -30,4 +30,5 @@ class Exercise(db.Model):
         "WorkoutSet",
         back_populates="exercise",
         cascade="all, delete-orphan",
+        order_by="WorkoutSet.id",
     )
