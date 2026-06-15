@@ -11,7 +11,6 @@ def create_set(workout_id, exercise_id):
     if form.validate_on_submit():
         new_set = WorkoutSet(
             exercise_id = exercise_id,
-            set_number=1,
             weight=form.weight.data,
             reps=form.reps.data,
         )
