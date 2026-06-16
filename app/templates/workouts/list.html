@@ -17,9 +17,12 @@
         <a href="{{ url_for('workouts.show_workout', workout_id=workout.id) }}">
             {{ workout.name }}
         </a>
+
     <br>
 
     <a href="{{ url_for('workouts.edit_workout', workout_id=workout.id) }}">Edit</a>
+
+    <a href="{{ url_for('workouts.delete_workout', workout_id=workout.id) }}">Delete</a>
 
     </li>
     {% endfor %}
