@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for
 from app.extensions import db
 from app.forms.sets import SetForm
-from app.models import WorkoutSet
+from app.models import WorkoutSet, Exercise
 
 sets_bp = Blueprint('sets', __name__)
 
@@ -24,7 +24,15 @@ def create_set(workout_id, exercise_id):
 
 @sets_bp.route('/workouts/<int:workout_id>/exercises/<int:exercise_id>/sets/<int:set_id>/edit', methods=['GET', 'POST'])
 def edit_set(workout_id, exercise_id, set_id):
-    set_to_update = db.get_or_404(WorkoutSet, set_id)
+    set_to_update = db.one_or_404(
+        db.select(WorkoutSet)
+        .join(WorkoutSet.exercise)
+        .where(
+            WorkoutSet.id == set_id,
+            Exercise.id == exercise_id,
+            Exercise.workout_id == workout_id,
+        )
+    )
 
     form = SetForm(
         weight=set_to_update.weight,
@@ -44,7 +52,15 @@ def edit_set(workout_id, exercise_id, set_id):
 
 @sets_bp.route('/workouts/<int:workout_id>/exercises/<int:exercise_id>/sets/<int:set_id>/delete', methods=['GET', 'POST'])
 def delete_set(workout_id, exercise_id, set_id):
-    set_to_delete = db.get_or_404(WorkoutSet, set_id)
+    set_to_delete = db.one_or_404(
+        db.select(WorkoutSet)
+        .join(WorkoutSet.exercise)
+        .where(
+            WorkoutSet.id == set_id,
+            Exercise.id == exercise_id,
+            Exercise.workout_id == workout_id,
+        )
+    )
     db.session.delete(set_to_delete)
     db.session.commit()
     return redirect(url_for('workouts.show_workout', workout_id=workout_id))
