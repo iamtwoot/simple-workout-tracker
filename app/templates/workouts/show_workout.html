@@ -1,51 +1,54 @@
 {% extends "base.html" %}
 
+{% block content %}
 
-{{ workout.name }}
-{{ workout.workout_date }}
-{{ workout.notes }}
+    {{ workout.name }}
+    {{ workout.workout_date }}
+    {{ workout.notes }}
 
-<hr>
+    <hr>
 
-<a href="{{ url_for('exercises.create_exercise', workout_id=workout.id) }}">Add Exercise</a>
+    <a href="{{ url_for('exercises.create_exercise', workout_id=workout.id) }}">Add Exercise</a>
 
-<hr>
+    <hr>
 
-{% for exercise in workout.exercises %}
-    {{ exercise.name }}
-
-    <br>
-
-    <a href="{{ url_for('exercises.edit_exercise', workout_id=workout.id, exercise_id=exercise.id) }}">Edit</a>
-    <a href="{{ url_for('exercises.delete_exercise', workout_id=workout.id, exercise_id=exercise.id) }}">Delete</a>
-
-    <br>
-
-    <a
-            href="{{ url_for('sets.create_set',
-                    workout_id=workout.id,
-                    exercise_id=exercise.id) }}"
-    >+ New Set</a> <br>
-
-    {% for set in exercise.sets %}
-        {{ loop.index }}. {{ set.reps }} x {{ set.weight }}
-
-        <a
-                href="{{ url_for('sets.edit_set',
-                        workout_id=workout.id,
-                        exercise_id=exercise.id,
-                        set_id=set.id) }}"
-        >Edit Set</a>
-
-        <a
-                href="{{ url_for('sets.delete_set',
-                        workout_id=workout.id,
-                        exercise_id=exercise.id,
-                        set_id=set.id) }}"
-        >Delete Set</a>
+    {% for exercise in workout.exercises %}
+        {{ exercise.name }}
 
         <br>
 
+        <a href="{{ url_for('exercises.edit_exercise', workout_id=workout.id, exercise_id=exercise.id) }}">Edit</a>
+        <a href="{{ url_for('exercises.delete_exercise', workout_id=workout.id, exercise_id=exercise.id) }}">Delete</a>
+
+        <br>
+
+        <a
+                href="{{ url_for('sets.create_set',
+                    workout_id=workout.id,
+                    exercise_id=exercise.id) }}"
+        >+ New Set</a> <br>
+
+        {% for set in exercise.sets %}
+            {{ loop.index }}. {{ set.reps }} x {{ set.weight }}
+
+            <a
+                    href="{{ url_for('sets.edit_set',
+                        workout_id=workout.id,
+                        exercise_id=exercise.id,
+                        set_id=set.id) }}"
+            >Edit Set</a>
+
+            <a
+                    href="{{ url_for('sets.delete_set',
+                        workout_id=workout.id,
+                        exercise_id=exercise.id,
+                        set_id=set.id) }}"
+            >Delete Set</a>
+
+            <br>
+
+        {% endfor %}
+        <hr>
     {% endfor %}
-<hr>
-{% endfor %}
+
+{% endblock %}
