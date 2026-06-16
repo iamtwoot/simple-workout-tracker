@@ -1,20 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>New Set</title>
-</head>
-<body>
-    <form method="POST">
+{% extends "base.html" %}
+
+<form method="POST">
     {{ form.hidden_tag() }}
 
-        {{ form.weight.label }}
-        {{ form.weight }}
+    {{ form.weight.label }}
+    {{ form.weight }}
 
-        {{ form.reps.label }}
-        {{ form.reps }}
+    {{ form.reps.label }}
+    {{ form.reps }}
 
     {{ form.submit() }}
 </form>
-</body>
-</html>

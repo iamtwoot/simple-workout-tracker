@@ -1,21 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-    <form action="{{ url_for('auth.login') }}" method="post">
-        {{ form.hidden_tag() }}
+{% extends "base.html" %}
 
-        {{ form.email.label }}
-        {{ form.email }}
+<form action="{{ url_for('auth.login') }}" method="post">
+    {{ form.hidden_tag() }}
 
-        {{ form.password.label }}
-        {{ form.password }}
+    {{ form.email.label }}
+    {{ form.email }}
 
-        {{ form.submit() }}
+    {{ form.password.label }}
+    {{ form.password }}
 
-    </form>
-</body>
-</html>
+    {{ form.submit() }}
+
+</form>

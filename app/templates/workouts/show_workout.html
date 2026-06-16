@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Workout</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+
 {{ workout.name }}
 {{ workout.workout_date }}
 {{ workout.notes }}
@@ -21,7 +17,6 @@
     <br>
 
     <a href="{{ url_for('exercises.edit_exercise', workout_id=workout.id, exercise_id=exercise.id) }}">Edit</a>
-
     <a href="{{ url_for('exercises.delete_exercise', workout_id=workout.id, exercise_id=exercise.id) }}">Delete</a>
 
     <br>
@@ -54,5 +49,3 @@
     {% endfor %}
 <hr>
 {% endfor %}
-</body>
-</html>

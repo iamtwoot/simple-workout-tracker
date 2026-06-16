@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>New Exercise</title>
-</head>
-<body>
+{% extends "base.html" %}
+
 <form method="POST">
     {{ form.hidden_tag() }}
 
@@ -13,5 +8,3 @@
 
     {{ form.submit() }}
 </form>
-</body>
-</html>
