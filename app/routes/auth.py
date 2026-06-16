@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms.login import LoginForm, RegistrationForm
 from app.extensions import db
 from app.models import User
-from flask_login import login_user
+from flask_login import login_user, login_required, logout_user
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -13,17 +13,19 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
+
         password = form.password.data
         user = db.session.scalar(db.select(User).where(User.email == form.email.data))
 
         if not user:
-            flash("No username found", "error")
+            flash("User with this email is not found", "error")
 
         elif not check_password_hash(user.password_hash, password):
             flash("Invalid password, try again.", "error")
 
         else:
             login_user(user)
+            flash("Logged in successfully", "success")
             return redirect(url_for('workouts.list_workouts'))
 
     return render_template("auth/login.html", form=form)
@@ -55,3 +57,11 @@ def register():
         return redirect(url_for('workouts.list_workouts'))
 
     return render_template("auth/register.html", form=form)
+
+
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash("Logged out successfully", "success")
+    return redirect(url_for('main.home'))
