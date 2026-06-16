@@ -1,5 +1,5 @@
 from flask import Flask
-from app.extensions import db, migrate
+from app.extensions import db, migrate, login_manager
 from config import Config
 
 
@@ -14,6 +14,8 @@ def create_app():
     import app.models
 
     migrate.init_app(flask_app, db)
+    login_manager.init_app(flask_app)
+    login_manager.login_view = 'auth.login'
 
     # blueprints
     from app.routes.main import main_bp
@@ -27,5 +29,8 @@ def create_app():
 
     from app.routes.sets import sets_bp
     flask_app.register_blueprint(sets_bp)
+
+    from app.routes.auth import auth_bp
+    flask_app.register_blueprint(auth_bp)
 
     return flask_app

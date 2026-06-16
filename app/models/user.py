@@ -1,8 +1,10 @@
-from app.extensions import db
+from app.extensions import db, login_manager
 import sqlalchemy.orm as orm
 from datetime import datetime
+from flask_login import UserMixin
 
-class User(db.Model):
+
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
     id: orm.Mapped[int] = orm.mapped_column(primary_key=True)
@@ -17,3 +19,8 @@ class User(db.Model):
 
     def __repr__(self) -> str:
         return f"<User {self.username}>"
+
+
+@login_manager.user_loader
+def load_user(user_id: int) -> User:
+    return db.session.get(User, user_id)
