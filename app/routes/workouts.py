@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for
 from app.extensions import db
-from app.models.workout import Workout
+from app.models import Workout
 from app.forms.workout import WorkoutForm
 
 workouts_bp = Blueprint('workouts', __name__, url_prefix='/workouts')

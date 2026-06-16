@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for
 from app.extensions import db
 from app.forms.sets import SetForm
-from app.models.workout_set import WorkoutSet
+from app.models import WorkoutSet
 
 sets_bp = Blueprint('sets', __name__)
 

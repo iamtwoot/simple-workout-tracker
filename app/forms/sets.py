@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import SubmitField, IntegerField, FloatField
 from wtforms.validators import DataRequired
 
 
 class SetForm(FlaskForm):
-    weight = StringField('Weight', validators=[DataRequired()])
-    reps = StringField('Reps', validators=[DataRequired()])
+    reps = IntegerField('Reps', validators=[DataRequired()])
+    weight = FloatField('Weight', validators=[DataRequired()])
     submit = SubmitField('Submit')
