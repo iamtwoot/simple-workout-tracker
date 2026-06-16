@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for
+from flask_login import login_required
 from app.extensions import db
 from app.models import Workout
 from app.forms.workout import WorkoutForm
@@ -7,6 +8,7 @@ workouts_bp = Blueprint('workouts', __name__, url_prefix='/workouts')
 
 
 @workouts_bp.route('/')
+@login_required
 def list_workouts():
     workouts = db.session.execute(db.select(Workout)).scalars().all()
     return render_template(
@@ -16,6 +18,7 @@ def list_workouts():
 
 
 @workouts_bp.route('/new', methods=['GET', 'POST'])
+@login_required
 def create_workout():
     form = WorkoutForm()
 
@@ -37,6 +40,7 @@ def create_workout():
 
 
 @workouts_bp.route('/<int:workout_id>', methods=['GET', 'POST'])
+@login_required
 def show_workout(workout_id):
     workout = db.get_or_404(Workout, workout_id)
 
@@ -46,6 +50,7 @@ def show_workout(workout_id):
     )
 
 @workouts_bp.route('/<int:workout_id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_workout(workout_id):
     workout = db.get_or_404(Workout, workout_id)
     form = WorkoutForm(obj=workout)
@@ -59,6 +64,7 @@ def edit_workout(workout_id):
 
 
 @workouts_bp.route('/<int:workout_id>/delete', methods=['GET', 'POST'])
+@login_required
 def delete_workout(workout_id):
     workout = db.get_or_404(Workout, workout_id)
     db.session.delete(workout)
