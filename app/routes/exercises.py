@@ -30,3 +30,11 @@ def edit_exercise(workout_id, exercise_id):
         return redirect(url_for('workouts.show_workout', workout_id=workout_id))
 
     return render_template('exercises/create_exercise.html', form=form)
+
+
+@exercises_bp.route('/workouts/<int:workout_id>/exercises/<int:exercise_id>/delete', methods=['GET', 'POST'])
+def delete_exercise(workout_id, exercise_id):
+    exercise = db.get_or_404(Exercise, exercise_id)
+    db.session.delete(exercise)
+    db.session.commit()
+    return redirect(url_for('workouts.show_workout', workout_id=workout_id))

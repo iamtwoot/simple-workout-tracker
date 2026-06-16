@@ -23,7 +23,7 @@ def create_set(workout_id, exercise_id):
 
 
 @sets_bp.route('/workouts/<int:workout_id>/exercises/<int:exercise_id>/sets/<int:set_id>/edit', methods=['GET', 'POST'])
-def edit_set(workout_id, set_id):
+def edit_set(workout_id, exercise_id, set_id):
     set_to_update = db.get_or_404(WorkoutSet, set_id)
 
     form = SetForm(
@@ -40,3 +40,11 @@ def edit_set(workout_id, set_id):
         return redirect(url_for('workouts.show_workout', workout_id=workout_id))
 
     return render_template('sets/create_set.html', form=form)
+
+
+@sets_bp.route('/workouts/<int:workout_id>/exercises/<int:exercise_id>/sets/<int:set_id>/delete', methods=['GET', 'POST'])
+def delete_set(workout_id, exercise_id, set_id):
+    set_to_delete = db.get_or_404(WorkoutSet, set_id)
+    db.session.delete(set_to_delete)
+    db.session.commit()
+    return redirect(url_for('workouts.show_workout', workout_id=workout_id))

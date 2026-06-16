@@ -22,6 +22,8 @@
 
     <a href="{{ url_for('exercises.edit_exercise', workout_id=workout.id, exercise_id=exercise.id) }}">Edit</a>
 
+    <a href="{{ url_for('exercises.delete_exercise', workout_id=workout.id, exercise_id=exercise.id) }}">Delete</a>
+
     <br>
 
     <a
@@ -39,6 +41,14 @@
                         exercise_id=exercise.id,
                         set_id=set.id) }}"
         >Edit Set</a>
+
+        <a
+                href="{{ url_for('sets.delete_set',
+                        workout_id=workout.id,
+                        exercise_id=exercise.id,
+                        set_id=set.id) }}"
+        >Delete Set</a>
+
         <br>
 
     {% endfor %}
