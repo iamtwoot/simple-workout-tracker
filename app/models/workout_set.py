@@ -1,3 +1,4 @@
+from datetime import datetime
 from app.extensions import db
 import sqlalchemy.orm as orm
 
@@ -18,6 +19,11 @@ class WorkoutSet(db.Model):
 
     weight: orm.Mapped[float] = orm.mapped_column(
         nullable=False,
+    )
+
+    created_at: orm.Mapped[datetime] = orm.mapped_column(
+        db.DateTime,
+        default=datetime.now,
     )
 
     exercise = orm.relationship(

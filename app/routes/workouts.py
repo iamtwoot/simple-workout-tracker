@@ -13,9 +13,11 @@ workouts_bp = Blueprint('workouts', __name__, url_prefix='/workouts')
 @login_required
 def list_workouts():
     workouts = db.session.scalars(
-        db.select(Workout).where(
+        db.select(Workout)
+        .where(
             Workout.user_id == current_user.id,
         )
+        .order_by(Workout.workout_date.desc())
     ).all()
 
     delete_form = DeleteForm()

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required
+from sqlalchemy import func
 from app.extensions import db
 from app.forms.exercise import ExerciseForm
 from app.models import Exercise
@@ -16,10 +17,17 @@ def create_exercise(workout_id):
     form = ExerciseForm()
 
     if form.validate_on_submit():
+        max_order = db.session.scalar(
+            db.select(func.max(Exercise.order_index))
+            .where(Exercise.workout_id == workout_id)
+        )
+
         new_exercise = Exercise(
             name=form.name.data,
             workout=workout,
+            order_index=(max_order or 0) + 1,
         )
+
         db.session.add(new_exercise)
         db.session.commit()
         return redirect(url_for('workouts.show_workout', workout_id=workout_id))
