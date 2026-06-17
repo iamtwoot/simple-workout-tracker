@@ -45,16 +45,12 @@ def create_workout():
 @workouts_bp.route('/<int:workout_id>', methods=['GET', 'POST'])
 @login_required
 def show_workout(workout_id):
-    workout = db.session.execute(
+    workout = db.one_or_404(
         db.select(Workout).where(
             Workout.user_id == current_user.id,
             Workout.id == workout_id,
         )
-    ).scalars().one_or_none()
-
-    if workout is None:
-        flash('Workout not found.')
-        return redirect(url_for('workouts.list_workouts'))
+    )
 
     return render_template(
         'workouts/show_workout.html',
@@ -65,16 +61,12 @@ def show_workout(workout_id):
 @workouts_bp.route('/<int:workout_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_workout(workout_id):
-    workout = db.session.execute(
+    workout = db.one_or_404(
         db.select(Workout).where(
             Workout.user_id == current_user.id,
             Workout.id == workout_id,
         )
-    ).scalars().one_or_none()
-
-    if workout is None:
-        flash('Workout not found.')
-        return redirect(url_for('workouts.list_workouts'))
+    )
 
     form = WorkoutForm(obj=workout)
 
@@ -89,16 +81,12 @@ def edit_workout(workout_id):
 @workouts_bp.route('/<int:workout_id>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_workout(workout_id):
-    workout = db.session.execute(
+    workout = db.one_or_404(
         db.select(Workout).where(
             Workout.user_id == current_user.id,
             Workout.id == workout_id,
         )
-    ).scalars().one_or_none()
-
-    if workout is None:
-        flash('Workout not found.')
-        return redirect(url_for('workouts.list_workouts'))
+    )
 
     db.session.delete(workout)
     db.session.commit()
