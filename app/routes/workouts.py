@@ -50,7 +50,7 @@ def show_workout(workout_id):
             Workout.user_id == current_user.id,
             Workout.id == workout_id,
         )
-    ).scalars().one_or_none()
+    ).scalars().one()
 
     if workout is None:
         flash('Workout not found.')
