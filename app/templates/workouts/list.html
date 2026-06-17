@@ -33,7 +33,12 @@
                 >
                     {{ delete_form.hidden_tag() }}
 
-                    {{ delete_form.submit() }}
+                    <button
+                            type="submit"
+                            onclick="return confirm('Delete this set?')"
+                    >
+                        Delete workout
+                    </button>
 
                 </form>
 

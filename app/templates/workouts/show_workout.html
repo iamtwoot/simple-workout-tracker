@@ -31,7 +31,12 @@
         >
             {{ delete_form.hidden_tag() }}
 
-            {{ delete_form.submit() }}
+            <button
+                    type="submit"
+                    onclick="return confirm('Delete this set?')"
+            >
+                Delete exercise
+            </button>
         </form>
 
         <br>
@@ -66,7 +71,12 @@
             >
                 {{ delete_form.hidden_tag() }}
 
-                {{ delete_form.submit() }}
+                <button
+                        type="submit"
+                        onclick="return confirm('Delete this set?')"
+                >
+                    Delete set
+                </button>
             </form>
 
             <br>
