@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import current_user, login_required
 from app.extensions import db
 from app.forms.sets import SetForm
@@ -66,7 +66,7 @@ def edit_set(workout_id, exercise_id, set_id):
 
 
 @sets_bp.route('/workouts/<int:workout_id>/exercises/<int:exercise_id>/sets/<int:set_id>/delete',
-               methods=['GET', 'POST'])
+               methods=['POST'])
 @login_required
 def delete_set(workout_id, exercise_id, set_id):
     set_to_delete = db.one_or_404(
@@ -82,4 +82,7 @@ def delete_set(workout_id, exercise_id, set_id):
     )
     db.session.delete(set_to_delete)
     db.session.commit()
+
+    flash("Set deleted!", "success")
+
     return redirect(url_for('workouts.show_workout', workout_id=workout_id))

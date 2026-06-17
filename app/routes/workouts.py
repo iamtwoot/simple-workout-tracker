@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app.extensions import db
+from app.forms.delete import DeleteForm
 from app.models import Workout
 from app.forms.workout import WorkoutForm
 
@@ -15,9 +16,13 @@ def list_workouts():
             Workout.user_id == current_user.id,
         )
     ).all()
+
+    delete_form = DeleteForm()
+
     return render_template(
         'workouts/list.html',
         workouts=workouts,
+        delete_form=delete_form,
     )
 
 
@@ -52,9 +57,12 @@ def show_workout(workout_id):
         )
     )
 
+    delete_form = DeleteForm()
+
     return render_template(
         'workouts/show_workout.html',
         workout=workout,
+        delete_form=delete_form,
     )
 
 
@@ -78,7 +86,7 @@ def edit_workout(workout_id):
     return render_template("workouts/new.html", form=form)
 
 
-@workouts_bp.route('/<int:workout_id>/delete', methods=['GET', 'POST'])
+@workouts_bp.route('/<int:workout_id>/delete', methods=['POST'])
 @login_required
 def delete_workout(workout_id):
     workout = db.one_or_404(
@@ -90,4 +98,7 @@ def delete_workout(workout_id):
 
     db.session.delete(workout)
     db.session.commit()
+
+    flash('Workout deleted', 'success')
+
     return redirect(url_for('workouts.list_workouts'))

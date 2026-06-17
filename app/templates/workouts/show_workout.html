@@ -2,12 +2,14 @@
 
 {% block content %}
 
-    {{ workout.name }}
-    {{ workout.workout_date }}
-    {{ workout.notes }}
+    <!-- WORKOUT -->
+    {{ workout.name }} <br>
+    {{ workout.workout_date }} <br>
+    {{ workout.notes }} <br>
 
     <hr>
 
+    <!-- EXERCISES -->
     <a href="{{ url_for('exercises.create_exercise', workout_id=workout.id) }}">Add Exercise</a>
 
     <hr>
@@ -22,11 +24,14 @@
 
         <br>
 
+        <!-- SETS -->
         <a
                 href="{{ url_for('sets.create_set',
                     workout_id=workout.id,
                     exercise_id=exercise.id) }}"
-        >+ New Set</a> <br>
+        >
+            + New Set
+        </a><br>
 
         {% for set in exercise.sets %}
             {{ loop.index }}. {{ set.reps }} x {{ set.weight }}
@@ -36,14 +41,18 @@
                         workout_id=workout.id,
                         exercise_id=exercise.id,
                         set_id=set.id) }}"
-            >Edit Set</a>
+            >
+                Edit Set
+            </a>
 
-            <a
-                    href="{{ url_for('sets.delete_set',
-                        workout_id=workout.id,
-                        exercise_id=exercise.id,
-                        set_id=set.id) }}"
-            >Delete Set</a>
+            <form
+                    action="{{ url_for('workouts.delete_workout', workout_id=workout.id) }}"
+                    method="POST"
+            >
+                {{ delete_form.hidden_tag() }}
+
+                {{ delete_form.submit() }}
+            </form>
 
             <br>
 
