@@ -10,11 +10,11 @@ workouts_bp = Blueprint('workouts', __name__, url_prefix='/workouts')
 @workouts_bp.route('/')
 @login_required
 def list_workouts():
-    workouts = db.session.execute(
+    workouts = db.session.scalars(
         db.select(Workout).where(
             Workout.user_id == current_user.id,
         )
-    ).scalars().all()
+    ).all()
     return render_template(
         'workouts/list.html',
         workouts=workouts,
