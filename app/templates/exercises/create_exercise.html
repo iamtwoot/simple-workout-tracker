@@ -1,14 +1,15 @@
 {% extends "base.html" %}
+{% include "header.html" %}
 
 {% block content %}
 
-<form method="POST">
-    {{ form.hidden_tag() }}
+    <form method="POST">
+        {{ form.hidden_tag() }}
 
-    {{ form.name.label }}
-    {{ form.name }}
+        {{ form.name.label }}
+        {{ form.name }}
 
-    {{ form.submit() }}
-</form>
+        {{ form.submit() }}
+    </form>
 
 {% endblock %}

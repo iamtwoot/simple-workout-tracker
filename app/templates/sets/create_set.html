@@ -1,17 +1,18 @@
 {% extends "base.html" %}
+{% include "header.html" %}
 
 {% block content %}
 
-<form method="POST">
-    {{ form.hidden_tag() }}
+    <form method="POST">
+        {{ form.hidden_tag() }}
 
-    {{ form.weight.label }}
-    {{ form.weight }}
+        {{ form.weight.label }}
+        {{ form.weight }}
 
-    {{ form.reps.label }}
-    {{ form.reps }}
+        {{ form.reps.label }}
+        {{ form.reps }}
 
-    {{ form.submit() }}
-</form>
+        {{ form.submit() }}
+    </form>
 
 {% endblock %}
