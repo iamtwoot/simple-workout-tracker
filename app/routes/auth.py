@@ -26,7 +26,7 @@ def login():
         else:
             login_user(user)
             flash("Logged in successfully", "success")
-            return redirect(url_for('workouts.list_workouts'))
+            return redirect(url_for('main.home'))
 
     return render_template("auth/login.html", form=form)
 
@@ -54,7 +54,7 @@ def register():
         db.session.commit()
 
         login_user(new_user)
-        return redirect(url_for('workouts.list_workouts'))
+        return redirect(url_for('main.home'))
 
     return render_template("auth/register.html", form=form)
 
