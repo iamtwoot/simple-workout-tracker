@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, redirect, url_for
-from flask_login import login_required
+from flask import Blueprint, render_template, redirect, url_for, flash
+from flask_login import login_required, current_user
 from app.extensions import db
 from app.models import Workout
 from app.forms.workout import WorkoutForm
@@ -10,7 +10,11 @@ workouts_bp = Blueprint('workouts', __name__, url_prefix='/workouts')
 @workouts_bp.route('/')
 @login_required
 def list_workouts():
-    workouts = db.session.execute(db.select(Workout)).scalars().all()
+    workouts = db.session.execute(
+        db.select(Workout).where(
+            Workout.user_id == current_user.id,
+        )
+    ).scalars().all()
     return render_template(
         'workouts/list.html',
         workouts=workouts,
@@ -24,8 +28,7 @@ def create_workout():
 
     if form.validate_on_submit():
         new_workout = Workout(
-            # replace with current_user.id
-            user_id=1,
+            user_id=current_user.id,
             name=form.name.data,
         )
         db.session.add(new_workout)
@@ -42,12 +45,22 @@ def create_workout():
 @workouts_bp.route('/<int:workout_id>', methods=['GET', 'POST'])
 @login_required
 def show_workout(workout_id):
-    workout = db.get_or_404(Workout, workout_id)
+    workout = db.session.execute(
+        db.select(Workout).where(
+            Workout.user_id == current_user.id,
+            Workout.id == workout_id,
+        )
+    ).scalars().one_or_none()
+
+    if workout is None:
+        flash('Workout not found.')
+        return redirect(url_for('workouts.list_workouts'))
 
     return render_template(
         'workouts/show_workout.html',
         workout=workout,
     )
+
 
 @workouts_bp.route('/<int:workout_id>/edit', methods=['GET', 'POST'])
 @login_required
