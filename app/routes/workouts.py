@@ -4,6 +4,7 @@ from app.extensions import db
 from app.forms.delete import DeleteForm
 from app.models import Workout
 from app.forms.workout import WorkoutForm
+from app.services.access import get_user_workout
 
 workouts_bp = Blueprint('workouts', __name__, url_prefix='/workouts')
 
@@ -50,12 +51,7 @@ def create_workout():
 @workouts_bp.route('/<int:workout_id>', methods=['GET', 'POST'])
 @login_required
 def show_workout(workout_id):
-    workout = db.one_or_404(
-        db.select(Workout).where(
-            Workout.user_id == current_user.id,
-            Workout.id == workout_id,
-        )
-    )
+    workout = get_user_workout(workout_id)
 
     delete_form = DeleteForm()
 
@@ -69,12 +65,7 @@ def show_workout(workout_id):
 @workouts_bp.route('/<int:workout_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_workout(workout_id):
-    workout = db.one_or_404(
-        db.select(Workout).where(
-            Workout.user_id == current_user.id,
-            Workout.id == workout_id,
-        )
-    )
+    workout = get_user_workout(workout_id)
 
     form = WorkoutForm(obj=workout)
 
@@ -89,12 +80,7 @@ def edit_workout(workout_id):
 @workouts_bp.route('/<int:workout_id>/delete', methods=['POST'])
 @login_required
 def delete_workout(workout_id):
-    workout = db.one_or_404(
-        db.select(Workout).where(
-            Workout.user_id == current_user.id,
-            Workout.id == workout_id,
-        )
-    )
+    workout = get_user_workout(workout_id)
 
     db.session.delete(workout)
     db.session.commit()

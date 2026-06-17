@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
-from flask_login import login_required, current_user
+from flask_login import login_required
 from app.extensions import db
 from app.forms.exercise import ExerciseForm
-from app.models import Exercise, Workout
+from app.models import Exercise
+from app.services.access import get_user_workout, get_user_exercise
 
 exercises_bp = Blueprint('exercises', __name__)
 
@@ -10,13 +11,7 @@ exercises_bp = Blueprint('exercises', __name__)
 @exercises_bp.route('/workouts/<int:workout_id>/exercises/new', methods=['GET', 'POST'])
 @login_required
 def create_exercise(workout_id):
-    # Check if this workout belongs to the current user
-    workout = db.one_or_404(
-        db.select(Workout).where(
-            Workout.id == workout_id,
-            Workout.user_id == current_user.id,
-        )
-    )
+    workout = get_user_workout(workout_id)
 
     form = ExerciseForm()
 
@@ -35,16 +30,7 @@ def create_exercise(workout_id):
 @exercises_bp.route('/workouts/<int:workout_id>/exercises/<int:exercise_id>/update', methods=['GET', 'POST'])
 @login_required
 def edit_exercise(workout_id, exercise_id):
-    # Check if the exercise belongs to the current user
-    exercise = db.one_or_404(
-        db.select(Exercise)
-        .join(Exercise.workout)
-        .where(
-            Exercise.id == exercise_id,
-            Workout.id == workout_id,
-            Workout.user_id == current_user.id,
-        )
-    )
+    exercise = get_user_exercise(workout_id, exercise_id)
 
     form = ExerciseForm(obj=exercise)
 
@@ -59,16 +45,7 @@ def edit_exercise(workout_id, exercise_id):
 
 @exercises_bp.route('/workouts/<int:workout_id>/exercises/<int:exercise_id>/delete', methods=['POST'])
 def delete_exercise(workout_id, exercise_id):
-    # Check if the exercise belongs to the current user
-    exercise = db.one_or_404(
-        db.select(Exercise)
-        .join(Exercise.workout)
-        .where(
-            Exercise.id == exercise_id,
-            Workout.id == workout_id,
-            Workout.user_id == current_user.id,
-        )
-    )
+    exercise = get_user_exercise(workout_id, exercise_id)
 
     db.session.delete(exercise)
     db.session.commit()
