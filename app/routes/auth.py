@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms.login import LoginForm, RegistrationForm
 from app.extensions import db
 from app.models import User
 from flask_login import login_user, login_required, logout_user
+from app.services.security import is_safe_url
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -26,6 +27,12 @@ def login():
         else:
             login_user(user)
             flash("Logged in successfully", "success")
+
+            next_page = request.args.get('next')
+
+            if next_page and is_safe_url(next_page):
+                return redirect(next_page)
+
             return redirect(url_for('main.home'))
 
     return render_template("auth/login.html", form=form)
@@ -46,8 +53,8 @@ def register():
 
         new_user = User(
             username=form.username.data,
-            email = form.email.data,
-            password_hash = hash_and_salted_password,
+            email=form.email.data,
+            password_hash=hash_and_salted_password,
         )
 
         db.session.add(new_user)
