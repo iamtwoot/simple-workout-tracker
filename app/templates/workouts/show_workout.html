@@ -20,7 +20,18 @@
         <br>
 
         <a href="{{ url_for('exercises.edit_exercise', workout_id=workout.id, exercise_id=exercise.id) }}">Edit</a>
-        <a href="{{ url_for('exercises.delete_exercise', workout_id=workout.id, exercise_id=exercise.id) }}">Delete</a>
+
+        <form
+                action="{{ url_for('exercises.delete_exercise',
+                            workout_id=workout.id,
+                            exercise_id=exercise.id
+                            ) }}"
+                method="POST"
+        >
+            {{ delete_form.hidden_tag() }}
+
+            {{ delete_form.submit() }}
+        </form>
 
         <br>
 

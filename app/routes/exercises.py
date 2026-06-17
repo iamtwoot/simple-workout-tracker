@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app.extensions import db
 from app.forms.exercise import ExerciseForm
@@ -57,7 +57,7 @@ def edit_exercise(workout_id, exercise_id):
     return render_template('exercises/create_exercise.html', form=form)
 
 
-@exercises_bp.route('/workouts/<int:workout_id>/exercises/<int:exercise_id>/delete', methods=['GET', 'POST'])
+@exercises_bp.route('/workouts/<int:workout_id>/exercises/<int:exercise_id>/delete', methods=['POST'])
 def delete_exercise(workout_id, exercise_id):
     # Check if the exercise belongs to the current user
     exercise = db.one_or_404(
@@ -72,4 +72,7 @@ def delete_exercise(workout_id, exercise_id):
 
     db.session.delete(exercise)
     db.session.commit()
+
+    flash("Exercise deleted!", "success")
+
     return redirect(url_for('workouts.show_workout', workout_id=workout_id))
