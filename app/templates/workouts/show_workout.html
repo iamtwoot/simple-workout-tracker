@@ -46,7 +46,10 @@
             </a>
 
             <form
-                    action="{{ url_for('workouts.delete_workout', workout_id=workout.id) }}"
+                    action="{{ url_for('sets.delete_set',
+                            workout_id=workout.id,
+                            exercise_id=exercise.id,
+                            set_id=set.id) }}"
                     method="POST"
             >
                 {{ delete_form.hidden_tag() }}
