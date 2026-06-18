@@ -9,12 +9,14 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="mb-0">My Workouts</h1>
 
+        {% if workout %}
         <a
                 href="{{ url_for('workouts.create_workout') }}"
                 class="btn btn-primary"
         >
             Create Workout
         </a>
+    {% endif %}
     </div>
 
     {% if workouts %}
