@@ -1,17 +1,62 @@
 {% extends "base.html" %}
 
+{% block title %}
+    Create Set
+{% endblock %}
+
 {% block content %}
 
-    <form method="POST">
-        {{ form.hidden_tag() }}
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6 col-lg-4">
 
-        {{ form.weight.label }}
-        {{ form.weight }}
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
 
-        {{ form.reps.label }}
-        {{ form.reps }}
+                    <h1 class="h3 text-center mb-4">
+                        Create Set
+                    </h1>
 
-        {{ form.submit() }}
-    </form>
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+
+                        <div class="mb-3">
+                            {{ form.weight.label(class="form-label") }}
+
+                            {{ form.weight(
+                            class="form-control" +
+                            (" is-invalid" if form.weight.errors else "")
+                        ) }}
+
+                            {% for error in form.weight.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-4">
+                            {{ form.reps.label(class="form-label") }}
+
+                            {{ form.reps(
+                            class="form-control" +
+                            (" is-invalid" if form.reps.errors else "")
+                        ) }}
+
+                            {% for error in form.reps.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        {{ form.submit(class="btn btn-primary w-100") }}
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 {% endblock %}
