@@ -6,43 +6,100 @@
 
 {% block content %}
 
-    <h1>Workouts</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">My Workouts</h1>
 
-    <a href="{{ url_for('workouts.create_workout') }}">Create Workout</a>
+        <a
+                href="{{ url_for('workouts.create_workout') }}"
+                class="btn btn-primary"
+        >
+            Create Workout
+        </a>
+    </div>
 
-    <hr>
+    {% if workouts %}
 
-    <ul>
-        {% for workout in workouts %}
-            <li>
-                <a href="{{ url_for('workouts.show_workout', workout_id=workout.id) }}">
-                    {{ workout.name }}
-                </a>
+    <div class="row g-3">
 
-                <br>
+    {% for workout in workouts %}
 
-                <a href="{{ url_for('workouts.edit_workout', workout_id=workout.id) }}">Edit</a>
+        <div class="col-12 col-md-6 col-lg-4">
 
-                <form
-                        action="{{ url_for(
-                        'workouts.delete_workout',
-                        workout_id=workout.id
-                        ) }}"
-                        method="POST"
-                >
-                    {{ delete_form.hidden_tag() }}
+            <div class="card h-100 shadow-sm">
 
-                    <button
-                            type="submit"
-                            onclick="return confirm('Delete this workout?')"
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        <a
+                                href="{{ url_for('workouts.show_workout', workout_id=workout.id) }}"
+                                class="text-decoration-none"
+                        >
+                            {{ workout.name }}
+                        </a>
+                    </h5>
+
+                    <p class="text-muted small mb-0">
+                        {{ workout.workout_date.strftime('%d.%m.%Y') }}
+                    </p>
+
+                </div>
+
+                <div class="card-footer bg-transparent d-flex gap-2">
+
+                    <a
+                            href="{{ url_for('workouts.edit_workout', workout_id=workout.id) }}"
+                            class="btn btn-outline-secondary btn-sm"
                     >
-                        Delete workout
-                    </button>
+                        Edit
+                    </a>
 
-                </form>
+                    <form
+                            action="{{ url_for('workouts.delete_workout', workout_id=workout.id) }}"
+                            method="POST"
+                            class="m-0"
+                    >
+                        {{ delete_form.hidden_tag() }}
 
-            </li>
+                        <button
+                                type="submit"
+                                class="btn btn-outline-danger btn-sm"
+                                onclick="return confirm('Delete this workout?')"
+                        >
+                            Delete
+                        </button>
+
+                    </form>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
         {% endfor %}
-    </ul>
+
+    </div>
+
+{% else %}
+
+<div class="text-center py-5">
+
+        <h3>No workouts yet</h3>
+
+        <p class="text-muted">
+            Create your first workout to get started.
+        </p>
+
+        <a
+            href="{{ url_for('workouts.create_workout') }}"
+            class="btn btn-primary"
+        >
+            Create Workout
+        </a>
+
+    </div>
+
+{% endif %}
 
 {% endblock %}
