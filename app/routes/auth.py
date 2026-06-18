@@ -19,10 +19,10 @@ def login():
         user = db.session.scalar(db.select(User).where(User.email == form.email.data))
 
         if not user:
-            flash("User with this email is not found", "error")
+            flash("User with this email is not found", "danger")
 
         elif not check_password_hash(user.password_hash, password):
-            flash("Invalid password, try again.", "error")
+            flash("Invalid password, try again.", "danger")
 
         else:
             login_user(user)
@@ -46,7 +46,7 @@ def register():
 
         user = db.session.scalar(db.select(User).where(User.email == form.email.data))
         if user:
-            flash("Email address already exists", "error")
+            flash("Email address already exists", "danger")
             return redirect(url_for('auth.register'))
 
         hash_and_salted_password = generate_password_hash(form.password.data)
