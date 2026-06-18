@@ -17,23 +17,25 @@
 </head>
 <body>
 
-{% include "header.html" %}
+{% block header %}
+    {% include "header.html" %}
+{% endblock %}
 
 <main class="container py-4">
 
-<!-- flash messages -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
+    <!-- flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
             {% for category, message in messages %}
                 <div class="alert alert-{{ category }}">
                     {{ message }}
                 </div>
             {% endfor %}
-    {% endif %}
-{% endwith %}
+        {% endif %}
+    {% endwith %}
 
-{% block content %}
-{% endblock %}
+    {% block content %}
+    {% endblock %}
 
 </main>
 

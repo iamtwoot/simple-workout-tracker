@@ -1,16 +1,15 @@
 {% extends "base.html" %}
-{% include "header.html" %}
 
 {% block content %}
 
-    <!-- WORKOUT -->
+    <!-- Workout -->
     {{ workout.name }} <br>
     {{ workout.workout_date }} <br>
     {{ workout.notes }} <br>
 
     <hr>
 
-    <!-- EXERCISES -->
+    <!-- Exercises -->
     <a href="{{ url_for('exercises.create_exercise', workout_id=workout.id) }}">Add Exercise</a>
 
     <hr>
@@ -41,7 +40,7 @@
 
         <br>
 
-        <!-- SETS -->
+        <!-- Sets -->
         <a
                 href="{{ url_for('sets.create_set',
                     workout_id=workout.id,
