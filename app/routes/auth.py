@@ -19,7 +19,7 @@ def login():
         user = db.session.scalar(db.select(User).where(User.email == form.email.data))
 
         if not user:
-            flash("User with this email is not found", "danger")
+            flash("Invalid email address", "danger")
 
         elif not check_password_hash(user.password_hash, password):
             flash("Invalid password, try again.", "danger")
