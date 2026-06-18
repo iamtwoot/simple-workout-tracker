@@ -1,87 +1,192 @@
 {% extends "base.html" %}
 
+{% block title %}
+    {{ workout.name }}
+{% endblock %}
+
 {% block content %}
 
-    <!-- Workout -->
-    {{ workout.name }} <br>
-    {{ workout.workout_date }} <br>
-    {{ workout.notes }} <br>
+    <div class="d-flex justify-content-between align-items-center md-4">
 
-    <hr>
+        <div>
+            <h1 class="mb-1">{{ workout.name }}</h1>
 
-    <!-- Exercises -->
-    <a href="{{ url_for('exercises.create_exercise', workout_id=workout.id) }}">Add Exercise</a>
+            <p class="text-muted mb-0">
+                {{ workout.workout_date.strftime('%d.%m.%Y %H:%M') }}
+            </p>
+        </div>
 
-    <hr>
+        <a
+                href="{{ url_for('exercises.create_exercise', workout_id=workout.id) }}"
+                class="btn btn-primary"
+        >
+            + Add Exercise
+        </a>
+    </div>
+
+    {% if workout.notes %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Notes</h5>
+
+                <p class="card-text mb-0">
+                    {{ workout.notes }}
+                </p>
+            </div>
+        </div>
+    {% endif %}
 
     {% for exercise in workout.exercises %}
-        {{ exercise.name }}
 
-        <br>
+        <div class="card shadow-sm md-4">
 
-        <a href="{{ url_for('exercises.edit_exercise', workout_id=workout.id, exercise_id=exercise.id) }}">Edit</a>
+            <div class="card-header d-flex justify-content-between align-items-center">
 
-        <form
-                action="{{ url_for('exercises.delete_exercise',
-                            workout_id=workout.id,
-                            exercise_id=exercise.id
-                            ) }}"
-                method="POST"
-        >
-            {{ delete_form.hidden_tag() }}
+                <h4 class="mb-0">
+                    {{ exercise.name }}
+                </h4>
 
-            <button
-                    type="submit"
-                    onclick="return confirm('Delete this exercise?')"
-            >
-                Delete exercise
-            </button>
-        </form>
+                <div class="d-flex gap-2">
 
-        <br>
-
-        <!-- Sets -->
-        <a
-                href="{{ url_for('sets.create_set',
-                    workout_id=workout.id,
-                    exercise_id=exercise.id) }}"
-        >
-            + New Set
-        </a><br>
-
-        {% for set in exercise.sets %}
-            {{ loop.index }}. {{ set.weight }} x {{ set.reps }}
-
-            <a
-                    href="{{ url_for('sets.edit_set',
+                    <a
+                            href="{{ url_for(
+                        'sets.create_set',
                         workout_id=workout.id,
-                        exercise_id=exercise.id,
-                        set_id=set.id) }}"
-            >
-                Edit Set
-            </a>
+                        exercise_id=exercise.id
+                        ) }}"
+                            class="btn btn-sm btn-success"
+                    >
+                        + Set
+                    </a>
 
-            <form
-                    action="{{ url_for('sets.delete_set',
-                            workout_id=workout.id,
-                            exercise_id=exercise.id,
-                            set_id=set.id) }}"
-                    method="POST"
-            >
-                {{ delete_form.hidden_tag() }}
+                    <a
+                            href="{{ url_for(
+                        'exercises.edit_exercise',
+                        workout_id=workout.id,
+                        exercise_id=exercise.id
+                    ) }}"
+                            class="btn btn-sm btn-outline-secondary"
+                    >
+                        Edit
+                    </a>
 
-                <button
-                        type="submit"
-                        onclick="return confirm('Delete this set?')"
-                >
-                    Delete set
-                </button>
-            </form>
+                    <form
+                            action="{{ url_for(
+                        'exercises.delete_exercise',
+                        workout_id=workout.id,
+                        exercise_id=exercise.id
+                    ) }}"
+                            method="POST"
+                            class="d-inline"
+                    >
+                        {{ delete_form.hidden_tag() }}
 
-            <br>
+                        <button
+                                type="submit"
+                                class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Delete this exercise?')"
+                        >
+                            Delete
+                        </button>
 
-        {% endfor %}
-        <hr>
+                    </form>
+
+                </div>
+
+            </div>
+
+            <div class="card-body p-0">
+
+                {% if exercise.sets %}
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover mb-0">
+
+                            <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Weight</th>
+                                <th>Reps</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            {% for set in exercise.sets %}
+
+                                <tr>
+
+                                    <td>{{ loop.index }}</td>
+
+                                    <td>{{ set.weight }} kg</td>
+
+                                    <td>{{ set.reps }}</td>
+
+                                    <td>
+
+                                        <div class="d-flex justify-content-end gap-2">
+
+                                            <a
+                                                    href="{{ url_for(
+                                                'sets.edit_set',
+                                                workout_id=workout.id,
+                                                exercise_id=exercise.id,
+                                                set_id=set.id
+                                            ) }}"
+                                                    class="btn btn-sm btn-outline-secondary"
+                                            >
+                                                Edit
+                                            </a>
+
+                                            <form
+                                                    action="{{ url_for(
+                                                'sets.delete_set',
+                                                workout_id=workout.id,
+                                                exercise_id=exercise.id,
+                                                set_id=set.id
+                                            ) }}"
+                                                    method="POST"
+                                                    class="d-inline"
+                                            >
+                                                {{ delete_form.hidden_tag() }}
+
+                                                <button
+                                                        type="submit"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('Delete this set?')"
+                                                >
+                                                    Delete
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                {% else %}
+
+                    <div class="p-4 text-center text-muted">
+                        No sets yet
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+        </div>
+
     {% endfor %}
+
 
 {% endblock %}
