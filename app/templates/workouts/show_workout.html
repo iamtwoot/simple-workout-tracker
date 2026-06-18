@@ -50,7 +50,7 @@
         </a><br>
 
         {% for set in exercise.sets %}
-            {{ loop.index }}. {{ set.reps }} x {{ set.weight }}
+            {{ loop.index }}. {{ set.weight }} x {{ set.reps }}
 
             <a
                     href="{{ url_for('sets.edit_set',
