@@ -19,6 +19,8 @@ class WorkoutSet(db.Model):
 
     weight: orm.Mapped[float] = orm.mapped_column(
         nullable=False,
+        default=0.0,
+        server_default="0"
     )
 
     created_at: orm.Mapped[datetime] = orm.mapped_column(

@@ -1,8 +1,8 @@
-"""Initial schema
+"""Add default weight value for workout sets
 
-Revision ID: bdf67addee30
+Revision ID: 4e16ab7c2d01
 Revises: 
-Create Date: 2026-06-11 15:06:19.670399
+Create Date: 2026-06-18 13:48:05.612195
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'bdf67addee30'
+revision = '4e16ab7c2d01'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -52,9 +52,9 @@ def upgrade():
     op.create_table('workout_sets',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('exercise_id', sa.Integer(), nullable=False),
-    sa.Column('set_number', sa.Integer(), nullable=False),
     sa.Column('reps', sa.Integer(), nullable=False),
-    sa.Column('weight', sa.Float(), nullable=False),
+    sa.Column('weight', sa.Float(), server_default='0', nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['exercise_id'], ['exercises.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

@@ -18,7 +18,7 @@ def create_set(workout_id, exercise_id):
     if form.validate_on_submit():
         new_set = WorkoutSet(
             exercise=exercise,
-            weight=form.weight.data,
+            weight=form.weight.data or 0.0,
             reps=form.reps.data,
         )
         db.session.add(new_set)
@@ -38,11 +38,11 @@ def edit_set(workout_id, exercise_id, set_id):
     form = SetForm(obj=set_to_update)
 
     if form.validate_on_submit():
-        new_weight = form.weight.data
-        new_reps = form.reps.data
-        set_to_update.weight = new_weight
-        set_to_update.reps = new_reps
+        set_to_update.weight = form.weight.data or 0.0
+        set_to_update.reps = form.reps.data
+
         db.session.commit()
+
         return redirect(url_for('workouts.show_workout', workout_id=workout_id))
 
     return render_template('sets/create_set.html', form=form)
