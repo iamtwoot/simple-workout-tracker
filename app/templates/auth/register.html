@@ -1,30 +1,77 @@
 {% extends "base.html" %}
 
+{% block title %}
+    Register
+{% endblock %}
+
 {% block content %}
 
-    <form action="{{ url_for('auth.register') }}" method="post">
-        {{ form.hidden_tag() }}
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6 col-lg-4">
 
-        {{ form.username.label }}
-        {{ form.username }}
-        {% for error in form.username.errors %}
-            <p>{{ error }}</p>
-        {% endfor %}
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
 
-        {{ form.email.label }}
-        {{ form.email }}
-        {% for error in form.email.errors %}
-            <p>{{ error }}</p>
-        {% endfor %}
+                    <h1 class="h3 text-center mb-4">
+                        Login
+                    </h1>
 
-        {{ form.password.label }}
-        {{ form.password }}
-        {% for error in form.password.errors %}
-            <p>{{ error }}</p>
-        {% endfor %}
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
 
-        {{ form.submit() }}
+                        <div class="mb-3">
+                            {{ form.username.label(class="form-label") }}
 
-    </form>
+                            {{ form.username(
+                            class="form-control" +
+                            (" is-invalid" if form.email.errors else "")
+                        ) }}
 
+                            {% for error in form.email.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.email.label(class="form-label") }}
+
+                            {{ form.email(
+                            class="form-control" +
+                            (" is-invalid" if form.email.errors else "")
+                        ) }}
+
+                            {% for error in form.email.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-4">
+                            {{ form.password.label(class="form-label") }}
+
+                            {{ form.password(
+                            class="form-control" +
+                            (" is-invalid" if form.password.errors else "")
+                        ) }}
+
+                            {% for error in form.password.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        {{ form.submit(class="btn btn-primary w-100") }}
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
 {% endblock %}
